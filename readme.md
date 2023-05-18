@@ -8,7 +8,7 @@
 
   - じゃんけんアプリを修正して勝率を表示させるようにしました。
 
-  - save/clearボタンによりlocalstrageへの戦歴保存/消去もできます。
+  - load/save/clearボタンによりLocalStorageデータのロード/保存/消去もできます。
 
 ## 工夫した点
 

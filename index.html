@@ -1,0 +1,206 @@
+<!DOCTYPE html>
+<html lang="ja">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="css/sample.css">
+  <title>じゃんけん</title>
+</head>
+
+<body>
+  <header>
+    <h1>じゃんけん ver.2</h1>
+  </header>
+
+  <main>
+    <h2>ページ下部のSAVEで戦歴が保存できるぞ</h2>
+    <ul>
+      <li id="gu_btn">グー</li>
+      <li id="cho_btn">チョキ</li>
+      <li id="par_btn">パー</li>
+    </ul>
+    <div id="com_hand">コンピュータの出した手は？</div>
+    <div id="result">結果は？</div>
+    <div id="win_rate">勝率は？</div>
+    <!-- 円グラフ搭載(予定) -->
+    <!-- <div class="chart-wrapper">
+              <canvas id="myChart"></canvas>
+            </div> -->
+    <div class="record" id="record">これまでの戦歴は？</div>
+    <ul>
+      <li id="save">Save</li>
+      <li id="clear">Clear</li>
+    </ul>
+  </main>
+
+  <footer></footer>
+
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.6.0/chart.min.js"></script>
+  <script>
+    const min = 0;
+    const max = 2;
+    const your_hand = ["グー", "チョキ", "パー"];
+    const c_hand = ["グー", "チョキ", "パー"];
+    const all_resultElements = [];
+    let all_result = [];//全試合の記録
+    let result = "";//試合の記録
+    let win_count = 0;//勝利数
+    let lose_count = 0;//敗北数
+    let draw_count = 0;//引き分け数
+    let win_rate = 0;//勝率
+    let i = 0;//カウント用変数
+    const data = {
+      game_count: 0,//試合数
+      before_result: ["コンピュータの出した手", "試合結果"],//セーブ直前のテキスト
+      all_result: all_result,
+      result_count: [win_count, lose_count, draw_count],
+      win_rate: "",
+    };
+    console.log(data);
+
+    $("#gu_btn").on("click", function () {
+      const randomNumber = Math.floor(Math.random() * c_hand.length);
+      data.game_count++;
+      if (randomNumber === 0) {
+        //コンピュータはグーを出す
+        $("#com_hand").text("コンピュータは グー を出したぞ");
+        data.before_result[0] = "コンピュータは グー を出したぞ";
+        $("#result").text(data.game_count + "戦目 Draw.");
+        data.before_result[1] = data.game_count + "戦目 Draw.";
+        data.result_count[2]++;
+        result = data.game_count + "戦目 あなたはグー,コンピュータはグー,結果はdraw";
+        all_result.push(result);
+
+      } else if (randomNumber === 1) {
+        //コンピュータはチョキを出す
+        $("#com_hand").text("コンピュータは チョキ を出したぞ");
+        data.before_result[0] = "コンピュータは チョキ を出したぞ";
+        $("#result").text(data.game_count + "戦目 You Win!!");
+        data.before_result[1] = data.game_count + "戦目 You Win!!";
+        data.result_count[0]++;
+        result = data.game_count + "戦目 あなたはグー,コンピュータはチョキ,結果はwin";
+        all_result.push(result);
+      } else {
+        //コンピュータはパーを出す
+        $("#com_hand").text("コンピュータは パー を出したぞ");
+        data.before_result[0] = "コンピュータは パー を出したぞ";
+        $("#result").text(data.game_count + "戦目 You Lose...");
+        data.before_result[1] = data.game_count + "戦目 You Lose...";
+        data.result_count[1]++;
+        result = data.game_count + "戦目 あなたはグー,コンピュータはパー,結果はlose";
+        all_result.push(result);
+      }
+      data.win_rate = Math.round(data.result_count[0] / data.game_count * 100) + "%";
+      $("#win_rate").text(data.win_rate + "(" + data.result_count[0] + "勝 " + data.result_count[1] + "敗 " + data.result_count[2] + "引き分け)");
+      $("#record").text(all_result);
+      data.all_result = all_result;
+      console.log(data);
+      //戦歴表示
+      for (i = 0; i < all_result.length; i++) {
+        all_resultElements.push('<p>' + all_result[i] + '</p>');
+      }
+      $('#record').html(all_resultElements);
+
+    });
+    $("#cho_btn").on("click", function () {
+      const randomNumber = Math.floor(Math.random() * c_hand.length);
+      data.game_count++;
+      if (randomNumber === 0) {
+        //コンピュータはグーを出す
+        // $("#com_hand").text("グー");
+        // $("#result").text("You lose...");
+        $("#com_hand").text("コンピュータは グー を出したぞ");
+        data.before_result[0] = "コンピュータは グー を出したぞ";
+        $("#result").text(data.game_count + "戦目 You lose...");
+        data.before_result[1] = data.game_count + "戦目 You lose...";
+        data.result_count[1]++;
+        result = data.game_count + "戦目 あなたはチョキ,コンピュータはグー,結果はlose";
+        all_result.push(result);
+
+      } else if (randomNumber === 1) {
+        //コンピュータはチョキを出す
+        // $("#com_hand").text("チョキ");
+        // $("#result").text("Draw. Fight again.");
+
+        $("#com_hand").text("コンピュータは チョキ を出したぞ");
+        $("#result").text(data.game_count + "戦目 Draw.");
+        data.result_count[2]++;
+        result = data.game_count + "戦目 あなたはチョキ,コンピュータはチョキ,結果はdraw";
+        all_result.push(result);
+      } else {
+        //コンピュータはパーを出す
+        $("#com_hand").text("パー");
+        $("#result").text("You Win!!");
+      }
+      $("#game_count").text(game_count + "戦目");
+
+    });
+    $("#par_btn").on("click", function () {
+      const randomNumber = Math.floor(Math.random() * (max - min + 1)) + min;
+      if (randomNumber === 0) {
+        //コンピュータはグーを出す
+        $("#com_hand").text("グー");
+        $("#result").text("You Win!!");
+      } else if (randomNumber === 1) {
+        //コンピュータはチョキを出す
+        $("#com_hand").text("チョキ");
+        $("#result").text("You lose...");
+      } else {
+        //コンピュータはパーを出す
+        $("#com_hand").text("パー");
+        $("#result").text("Draw. Fight again.");
+      }
+      $("#game_count").text(game_count + "戦目");
+
+    });
+
+    //localstrage保存
+    $('#save').on('click', function () {
+      console.log(data);
+      // テキストエリアからテキストを読み込む
+      // const input = $('#input').val();
+      // const text = $('#text_area').val();
+
+      // const data = {
+      //   title: input,
+      //   text: text,
+      // };
+
+      const json = JSON.stringify(data);
+      console.log(json);
+
+      localStorage.setItem('memo', json);
+      // local storageに読み込んだテキストを保存する
+
+    });
+    //localstrage削除
+    $('#clear').on('click', function () {
+      //テキストエリアからテキストを読み込む
+      localStorage.removeItem('memo');
+      //local storageに読み込んだテキストを保存する
+      // $('#input').val('');
+      // $('#text_area').val('');
+    });
+    //ページ更新時のlocalstrageロード
+    if (localStorage.getItem('memo')) {
+      const json = localStorage.getItem('memo');
+      console.log(json);
+      const data = JSON.parse(json);
+      console.log(data);
+      console.log(all_resultElements);
+      $('#com_hand').text(data.before_result[0]);
+      $("#result").text(data.before_result[1]);
+      $("#win_rate").text(data.win_rate + "(" + data.result_count[0] + "勝 " + data.result_count[1] + "敗 " + data.result_count[2] + "引き分け)");
+      for (i = 0; i < Object.keys(data.all_result).length; i++) {
+        all_resultElements.push('<p>' + data.all_result[i] + '</p>');
+      }
+      $('#record').html(all_resultElements);
+      console.log(all_resultElements);
+    };
+  </script>
+
+</body>
+
+</html>

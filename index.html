@@ -14,7 +14,6 @@
   </header>
 
   <main>
-    <h2>ページ下部のSAVEで戦歴が保存できるぞ</h2>
     <ul>
       <li id="gu_btn">グー</li>
       <li id="cho_btn">チョキ</li>
@@ -71,9 +70,6 @@
         $("#result").text(data.game_count + "戦目 Draw.");
         data.before_result[1] = data.game_count + "戦目 Draw.";
         data.result_count[2]++;
-        // result = data.game_count + "戦目 あなたはグー,コンピュータはグー,結果はdraw";
-        // result = data.game_count + "戦目 あなたはグー,コンピュータはグー,結果はdraw";
-        // all_result.push(result);
         data.all_result.push(data.game_count + "戦目 あなたはグー,コンピュータはグー,結果はdraw");
 
       } else if (randomNumber === 1) {
@@ -83,8 +79,6 @@
         $("#result").text(data.game_count + "戦目 You Win!!");
         data.before_result[1] = data.game_count + "戦目 You Win!!";
         data.result_count[0]++;
-        // result = data.game_count + "戦目 あなたはグー,コンピュータはチョキ,結果はwin";
-        // all_result.push(result);
         data.all_result.push(data.game_count + "戦目 あなたはグー,コンピュータはチョキ,結果はwin");
       } else {
         //コンピュータはパーを出す
@@ -93,19 +87,16 @@
         $("#result").text(data.game_count + "戦目 You Lose...");
         data.before_result[1] = data.game_count + "戦目 You Lose...";
         data.result_count[1]++;
-        // result = data.game_count + "戦目 あなたはグー,コンピュータはパー,結果はlose";
-        // all_result.push(result);
         data.all_result.push(data.game_count + "戦目 あなたはグー,コンピュータはパー,結果はlose");
       }
       data.win_rate = Math.round(data.result_count[0] / data.game_count * 100) + "%";
       $("#win_rate").text(data.win_rate + "(" + data.result_count[0] + "勝 " + data.result_count[1] + "敗 " + data.result_count[2] + "引き分け)");
-      //console.log(data);
+
       //戦歴表示
       all_resultElements = [];
       for (i = 0; i < Object.keys(data.all_result).length; i++) {
         all_resultElements.push('<p>' + data.all_result[i] + '</p>');
       }
-      //console.log(all_resultElements);
       $('#record').html(all_resultElements);
 
     });
@@ -145,13 +136,12 @@
       $("#win_rate").text(data.win_rate + "(" + data.result_count[0] + "勝 " + data.result_count[1] + "敗 " + data.result_count[2] + "引き分け)");
       $("#record").text(all_result);
       data.all_result = all_result;
-      //console.log(data);
+
       //戦歴表示
       all_resultElements = [];
       for (i = 0; i < Object.keys(data.all_result).length; i++) {
         all_resultElements.push('<p>' + data.all_result[i] + '</p>');
       }
-      //console.log(all_resultElements);
       $('#record').html(all_resultElements);
     });
     $("#par_btn").on("click", function () {
@@ -189,7 +179,7 @@
       $("#win_rate").text(data.win_rate + "(" + data.result_count[0] + "勝 " + data.result_count[1] + "敗 " + data.result_count[2] + "引き分け)");
       $("#record").text(all_result);
       data.all_result = all_result;
-      //console.log(data);
+
       //戦歴表示
       all_resultElements = [];
       for (i = 0; i < Object.keys(data.all_result).length; i++) {
